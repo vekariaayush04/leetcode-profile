@@ -4,7 +4,7 @@ import { getProfiles } from "./actions";
 import {  useEffect, useState  } from "react";
 
 export default function Home() {
-  const [totalData, setTotalData] = useState<any>({});
+  const [totalData, setTotalData] = useState(0);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
@@ -29,7 +29,7 @@ export default function Home() {
   );
 }
 
- function Total ({totalData,loading}:{totalData:any,loading:boolean}) {
+ function Total ({totalData,loading}:{totalData:number,loading:boolean}) {
   return ( loading ? (
     <div className="flex flex-col items-center py-4">
 
@@ -42,7 +42,7 @@ export default function Home() {
         <div className="flex justify-around">
           <div className="text-center w-96">
             <div className="w-16 h-16 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto">
-              {totalData.count}
+              {totalData}
             </div>
             <h2 className="mt-2 text-lg font-semibold">All</h2>
           </div>

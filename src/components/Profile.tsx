@@ -28,7 +28,7 @@ export const Profile = ({ username }: { username: string }) => {
         </div>
       ) : (
         <div className="flex justify-around">
-          {data?.map((element: any) => {
+          {data?.map((element) => {
             let colorClass = "";
             switch (element.difficulty) {
               case "Easy":

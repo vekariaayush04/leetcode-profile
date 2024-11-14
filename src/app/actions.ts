@@ -25,6 +25,6 @@ export async function getProfiles() {
         }
         }
     }
-    return totalData;
+    return totalData.count;
 }
 
