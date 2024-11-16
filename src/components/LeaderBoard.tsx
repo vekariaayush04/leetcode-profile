@@ -1,4 +1,5 @@
 "use client";
+
 import { getTodaySubmissions } from "@/app/actions";
 import React, { useEffect, useState } from "react";
 
@@ -18,7 +19,9 @@ const LeaderBoard = () => {
     const fetchData = async () => {
       try {
         const fetchedData = await getTodaySubmissions({ username: users });
-        setData(fetchedData || []);
+        // Sort the data by value in descending order
+        const sortedData = fetchedData?.sort((a, b) => b.value - a.value) || [];
+        setData(sortedData);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -26,26 +29,61 @@ const LeaderBoard = () => {
     };
     fetchData();
   }, []);
-  return (
-    (!loading ? <div>
-      <h1 className="text-2xl font-bold text-center mb-4 mt-4">Top LeetCoders of the Day</h1>
-      <div className="flex flex-col justify-center items-center ">
-        {data?.map((element) => (
-          <div key={element.username} className="text-center w-96 grid grid-cols-2 items-center h-20 bg-gray-300 m-2 rounded-xl">
-            <div className="bg-gray-500 mx-8 rounded-lg text-white h-12 flex items-center justify-center"><span>{element.username}</span></div>
-            <div className="w-16 h-16 bg-gray-500 text-white rounded-full flex items-center justify-center mx-auto">
+
+  // Function to get rank styles
+  const getRankStyle = (rank: number) => {
+    switch (rank) {
+      case 1:
+        return "bg-yellow-500 text-white"; // Gold
+      case 2:
+        return "bg-gray-400 text-white"; // Silver
+      case 3:
+        return "bg-amber-600 text-white"; // Bronze
+      default:
+        return "bg-transparent"; // No rank for others
+    }
+  };
+
+  return !loading ? (
+    <div>
+      <h1 className="text-3xl font-extrabold text-center mb-8 mt-4 text-gray-800">
+        Top LeetCoders of the Day
+      </h1>
+      <div className="flex flex-col items-center space-y-4">
+        {data?.map((element, index) => (
+          <div
+            key={element.username}
+            className="relative flex items-center justify-between w-96 h-20 bg-gray-100 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300"
+          >
+            {/* Rank Circle on Left Side */}
+            {index < 3 && (
+              <div
+                className={`absolute left-[-30px] top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center ${getRankStyle(index + 1)} font-bold`}
+              >
+                {index + 1}
+              </div>
+            )}
+
+            {/* Username Section */}
+            <div className="flex-1 flex items-center justify-center text-xl font-medium text-gray-800">
+              <span>{element.username}</span>
+            </div>
+
+            {/* Submission Value Section */}
+            <div className="flex items-center justify-center w-16 h-16 bg-gray-500 text-white rounded-full mx-4">
               {element.value}
             </div>
           </div>
         ))}
       </div>
-    </div> : <div>
+    </div>
+  ) : (
     <div className="flex flex-col items-center py-4 justify-center h-screen">
-
-<div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-<p className="mt-2 text-gray-600 text-2xl font-semibold">Top LeetCoders on the way ...</p>
-</div>
-    </div>)
+      <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+      <p className="mt-2 text-gray-600 text-2xl font-semibold">
+        Top LeetCoders on the way ...
+      </p>
+    </div>
   );
 };
 
