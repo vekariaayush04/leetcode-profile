@@ -2,6 +2,7 @@
 import {Profile} from "@/components/Profile";
 import { getProfiles } from "./actions";
 import {  useEffect, useState  } from "react";
+import Link from "next/link";
 
 export default function Home() {
   const [totalData, setTotalData] = useState(0);
@@ -17,6 +18,11 @@ export default function Home() {
   }, []);
 
   return (
+    <div>
+      <header className="flex justify-center items-center p-2  bg-blue-500 shadow-lg sticky top-0 z-50">
+       <Link href={"/leaderboard"}>
+       <h1 className="flex items-center text-2xl font-bold mb-1 text-center bg-white rounded-lg p-2">LeaderBoard</h1></Link>
+      </header>
     <div className="h-screen md:grid md:grid-cols-2 gap-3">
       <Profile username="rishabh467"/>
       <Profile username="vivek5001"/>
@@ -25,6 +31,7 @@ export default function Home() {
       <Profile username="anand016"/>
       <Profile username="Ashutosh_1030"/>
       <Total totalData={totalData} loading={loading}/>
+    </div>
     </div>
   );
 }

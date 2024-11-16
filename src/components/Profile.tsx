@@ -16,6 +16,8 @@ export const Profile = ({ username }: { username: string }) => {
     };
     fetchData();
   }, [username]);
+  
+  
 
   return (
     <div className="p-4 max-w-lg mx-auto bg-white shadow-lg rounded-lg m-8">
