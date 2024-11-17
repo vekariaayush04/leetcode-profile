@@ -60,7 +60,7 @@ export async function getTodaySubmissions({ username }: { username: string[] }) 
         const submissions = userdata.recentSubmissionList || [];
         let acceptedSubmissionsToday = 0;
         let submissionsCounted = totalSubmissionsToday;
-        let prevQue = submissions[0].title;
+        let prevQue = "";
 
         for (let j = 0; j < submissions.length; j++) {
             if(submissionsCounted === 0){
