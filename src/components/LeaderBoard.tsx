@@ -56,9 +56,9 @@ const LeaderBoard = () => {
             className="relative flex items-center justify-between w-96 h-20 bg-gray-100 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300"
           >
             {/* Rank Circle on Left Side */}
-            {index < 3 && (
+            {index < 7 && (
               <div
-                className={`absolute left-[-30px] top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center ${getRankStyle(index + 1)} font-bold`}
+                className={`ml-4 w-10 h-10 rounded-full flex items-center justify-center ${getRankStyle(index + 1)} font-bold`}
               >
                 {index + 1}
               </div>
