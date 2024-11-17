@@ -44,7 +44,7 @@ const LeaderBoard = () => {
     }
   };
 
-  return !loading ? (
+  return !loading   ? (
     <div>
       <h1 className="text-3xl font-extrabold text-center mb-8 mt-4 text-gray-800">
         Top LeetCoders of the Day
