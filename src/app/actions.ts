@@ -31,7 +31,7 @@ export async function getProfiles() {
 export async function getTodaySubmissions({ username }: { username: string[] }) {
     const leetcode = new LeetCode();
     const userData: { username: string; value: number }[] = [];
-    const IST_OFFSET = 5.5 * 60 * 60 * 1000; // IST offset in milliseconds
+    // const IST_OFFSET = 5.5 * 60 * 60 * 1000; // IST offset in milliseconds
 
     for (let i = 0; i < username.length; i++) {
         const userdata = await leetcode.user(username[i]);
@@ -50,7 +50,7 @@ export async function getTodaySubmissions({ username }: { username: string[] }) 
 
         const endOfDayUTC = new Date(startOfDayUTC.getTime());
         endOfDayUTC.setUTCHours(23, 59, 59, 999); // 11:59:59 p.m. IST
-        const endOfDayISTTimestamp = Math.floor(endOfDayUTC.getTime() / 1000); // IST end in seconds
+        //const endOfDayISTTimestamp = Math.floor(endOfDayUTC.getTime() / 1000); // IST end in seconds
 
         // Parse the submission calendar to get submissions for today
         const submissionCalendar = JSON.parse(data);
