@@ -66,7 +66,7 @@ export async function getTodaySubmissions({ username }: { username: string[] }) 
             if(submissionsCounted === 0){
                 break;
             }
-            let currQue = submissions[j].title;
+            const currQue = submissions[j].title;
             if(currQue === prevQue) {
                 submissionsCounted -= 1;
                 continue;
