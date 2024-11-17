@@ -44,7 +44,7 @@ export async function getTodaySubmissions({ username }: { username: string[] }) 
 
         // Calculate today's start and end timestamps in IST
         const nowUTC = new Date();
-        const startOfDayUTC = new Date(nowUTC.getTime() + IST_OFFSET); // Convert UTC to IST
+        const startOfDayUTC = new Date(nowUTC.getTime()); // Convert UTC to IST
         startOfDayUTC.setUTCHours(0, 0, 0, 0); // Reset to 12:00 a.m. IST
         const startOfDayISTTimestamp = Math.floor(startOfDayUTC.getTime() / 1000); // IST start in seconds
 
@@ -55,28 +55,20 @@ export async function getTodaySubmissions({ username }: { username: string[] }) 
         // Parse the submission calendar to get submissions for today
         const submissionCalendar = JSON.parse(data);
         const totalSubmissionsToday = submissionCalendar[startOfDayISTTimestamp] || 0;
-
+        console.log(totalSubmissionsToday);
         // Filter today's submissions from the recent submission list
         const submissions = userdata.recentSubmissionList || [];
         let acceptedSubmissionsToday = 0;
-        let submissionsCounted = 0;
+        let submissionsCounted = totalSubmissionsToday;
 
         for (let j = 0; j < submissions.length; j++) {
-            const submissionTimestampUTC = parseInt(submissions[j].timestamp); // In seconds
-            const submissionTimestampIST = submissionTimestampUTC + Math.floor(IST_OFFSET / 1000); // Convert to IST seconds
-
-            if (
-                submissionTimestampIST >= startOfDayISTTimestamp &&
-                submissionTimestampIST <= endOfDayISTTimestamp &&
-                submissions[j].statusDisplay === "Accepted"
-            ) {
-                acceptedSubmissionsToday += 1;
-            }
-
-            // Exit once we process all submissions for today
-            if (++submissionsCounted >= totalSubmissionsToday) {
+            if(submissionsCounted === 0){
                 break;
             }
+            if(submissions[j].statusDisplay === "Accepted") {
+                acceptedSubmissionsToday += 1;
+            }
+            submissionsCounted -= 1;
         }
 
         userData.push({
