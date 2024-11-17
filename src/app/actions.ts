@@ -60,15 +60,22 @@ export async function getTodaySubmissions({ username }: { username: string[] }) 
         const submissions = userdata.recentSubmissionList || [];
         let acceptedSubmissionsToday = 0;
         let submissionsCounted = totalSubmissionsToday;
+        let prevQue = submissions[0].title;
 
         for (let j = 0; j < submissions.length; j++) {
             if(submissionsCounted === 0){
                 break;
             }
+            let currQue = submissions[j].title;
+            if(currQue === prevQue) {
+                submissionsCounted -= 1;
+                continue;
+            }
             if(submissions[j].statusDisplay === "Accepted") {
                 acceptedSubmissionsToday += 1;
             }
             submissionsCounted -= 1;
+            prevQue = currQue;
         }
 
         userData.push({
