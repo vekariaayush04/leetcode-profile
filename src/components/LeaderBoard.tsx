@@ -145,6 +145,7 @@ const LeaderBoard = () => {
           </p>
         </div>
       )}
+      
     </div>
   );
 };
