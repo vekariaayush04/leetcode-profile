@@ -89,63 +89,49 @@ export async function getTodaySubmissions({ username }: { username: string[] }) 
     return userData;
 }
 
-
-
-// export async function getTodaySubmissions({ username }: { username: string[] }) {
-//     const leetcode = new LeetCode();
-//     const userData:{
-//         username:string,
-//         value:number
-//     }[] = [];
-//     for (let i = 0; i < username.length; i++) {
-//         const userdata = await leetcode.user(username[i]);
-//         const data = userdata.matchedUser?.submissionCalendar;
-//         const today = new Date();
-//         today.setUTCHours(0, 0, 0, 0);
-//         const todayTimestamp = Math.floor(today.getTime() / 1000);
-//         const data1 = JSON.parse(data!);
-        
-//         let submissionsToday = data1[todayTimestamp] || 0; 
-//         const submissions = userdata.recentSubmissionList!;
-        
-//         let accepted = 0;
-//         for (let i = 0; i < submissions.length; i++) {
-//             if(submissionsToday === 0){
-//                 break;
-//             }
-//             if(submissions[i].statusDisplay == "Accepted") {
-//                 accepted += 1;
-//             }
-//             submissionsToday -= 1;
-//         }
-//         userData.push({
-//             username: username[i],
-//             value: accepted
-//         });
-//     }
-//     userData.sort((a, b) => b.value - a.value);
-//     return userData;
-// }
-//     const user = await leetcode.user(username);
-//     const data = user.matchedUser?.submissionCalendar
-//     const today = new Date();
-//     today.setUTCHours(0, 0, 0, 0);
-//     const todayTimestamp = Math.floor(today.getTime() / 1000);
-//     const data1 = JSON.parse(data!);
+export async function getArenaStats({ username }: { username: string }) {
+    const leetcode = new LeetCode();
+    const user = await leetcode.user(username);
+    const submitStats = user.matchedUser?.submitStats.acSubmissionNum || [];
     
-//     let submissionsToday = data1[todayTimestamp] || 0; 
-//     const submissions = user.recentSubmissionList!;
-    
-//     let accepted = 0;
-//     for (let i = 0; i < submissions.length; i++) {
-//         if(submissionsToday === 0){
-//             break;
-//         }
-//         if(submissions[i].statusDisplay == "Accepted") {
-//             accepted += 1;
-//         }
-//         submissionsToday -= 1;
-//     }
-//     return accepted;
-// }
+    // Get the correct stats from submitStats array
+    const stats = {
+        easy: submitStats.find(s => s.difficulty === "Easy")?.count || 0,
+        medium: submitStats.find(s => s.difficulty === "Medium")?.count || 0,
+        hard: submitStats.find(s => s.difficulty === "Hard")?.count || 0,
+        all: submitStats.find(s => s.difficulty === "All")?.count || 0
+    };
+
+    // Calculate level and other RPG stats
+    const level = Math.floor(stats.all / 50) + 1;
+    const powerLevel = {
+        strength: stats.hard * 3,
+        speed: stats.all,
+        wisdom: stats.medium * 2,
+        agility: stats.easy
+    };
+
+    // Special abilities based on achievements
+    const abilities = [];
+    if (stats.hard > 15) abilities.push("🔥 Dragon's Breath");
+    if (stats.all > 100) abilities.push("⚡ Lightning Strike");
+    if (stats.medium > 50) abilities.push("🌟 Mystic Shield");
+    if (stats.easy > 100) abilities.push("🌪️ Wind Walker");
+
+    // Calculate character class based on solving patterns
+    const characterClass = 
+        stats.hard > stats.medium ? "Warrior" :
+        stats.medium > stats.easy ? "Mage" :
+        stats.all > 200 ? "Rogue" : "Paladin";
+
+    return {
+        username,
+        level,
+        powerLevel,
+        abilities,
+        characterClass,
+        avatar: `https://robohash.org/${username}?set=set2&size=200x200`,
+        stats  // Include the stats in the return object
+    };
+}
 
