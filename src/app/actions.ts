@@ -93,6 +93,7 @@ export async function getArenaStats({ username }: { username: string }) {
     const leetcode = new LeetCode();
     const user = await leetcode.user(username);
     const submitStats = user.matchedUser?.submitStats.acSubmissionNum || [];
+    const submissionCalendar = JSON.parse(user.matchedUser?.submissionCalendar || '{}');
     
     // Get the correct stats from submitStats array
     const stats = {
@@ -131,7 +132,8 @@ export async function getArenaStats({ username }: { username: string }) {
         abilities,
         characterClass,
         avatar: `https://robohash.org/${username}?set=set2&size=200x200`,
-        stats  // Include the stats in the return object
+        stats,
+        submissionCalendar
     };
 }
 

@@ -80,10 +80,10 @@ const LeaderBoard = () => {
 
       {!loading ? (
         <div className="container mx-auto px-4 py-12">
-          <h1 className="text-4xl font-bold text-center mb-2 bg-gradient-to-r from-yellow-400 to-purple-400 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold text-center mb-8 bg-gradient-to-r from-yellow-400 to-purple-400 bg-clip-text text-transparent">
             Battle Rankings
           </h1>
-          <p className="text-center text-gray-400 mb-8 text-sm">Daily Challenge Champions</p>
+          {/* <p className="text-center text-gray-400 mb-8 text-sm">Daily Challenge Champions</p> */}
 
           <div className="flex flex-col items-center space-y-4 max-w-xl mx-auto">
             {data?.map((element, index) => {
@@ -111,9 +111,9 @@ const LeaderBoard = () => {
                         <p className="text-xs bg-gradient-to-r from-yellow-400 to-purple-400 bg-clip-text text-transparent">
                           {rankStyle.title}
                         </p>
-                        <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-white/10">
+                        {/* <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-white/10">
                           {rankStyle.power}
-                        </span>
+                        </span> */}
                       </div>
                     </div>
 
@@ -121,7 +121,7 @@ const LeaderBoard = () => {
                     <div className={`flex items-center gap-2 bg-gradient-to-r 
                       ${rankStyle.gradient} rounded-md px-3 py-1.5 ${rankStyle.glow} min-w-[80px] justify-center`}>
                       <span className="text-lg font-bold">{element.value}</span>
-                      <span className="text-[10px] opacity-75">pts</span>
+                      <span className="text-[10px] opacity-75 text-md font-semibold">Kills</span>
                     </div>
                   </div>
 
@@ -141,7 +141,7 @@ const LeaderBoard = () => {
         <div className="flex flex-col items-center justify-center h-screen">
           <div className="w-12 h-12 border-3 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
           <p className="mt-3 text-xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-            Summoning... ⚔️
+            Summoning Today&apos;s Warriors... ⚔️
           </p>
         </div>
       )}

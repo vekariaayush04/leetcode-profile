@@ -2,6 +2,7 @@
 import { getArenaStats } from "./actions";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import FlippableWarriorCard from "../components/FlippableWarriorCard";
 
 type Player = {
   username: string;
@@ -21,6 +22,7 @@ type Player = {
     hard: number;
     all: number;
   };
+  submissionCalendar: Record<string, number>;
 };
 export default function Home() {
   const [players, setPlayers] = useState<Player[]>([]);
@@ -81,58 +83,11 @@ export default function Home() {
       <div className="max-w-7xl mx-auto p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {players.map((player) => (
-            <div key={player.username} 
-                 className="bg-white/5 backdrop-blur-sm rounded-xl p-6 hover:bg-white/10 transition-all">
-              <div className="flex items-center space-x-4 mb-4">
-                <img 
-                  src={player.avatar} 
-                  alt={player.username}
-                  className="w-16 h-16 rounded-full ring-2 ring-purple-400"
-                />
-                <div>
-                  <h2 className="text-xl font-bold">{player.username}</h2>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-sm text-yellow-400">Level {player.level}</span>
-                    <span className="text-sm text-purple-400">{player.characterClass}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* LeetCode Stats */}
-              <div className="space-y-3">
-                {[
-                  { label: "Easy", value: player.stats.easy, color: "from-green-400 to-green-600" },
-                  { label: "Medium", value: player.stats.medium, color: "from-yellow-400 to-yellow-600" },
-                  { label: "Hard", value: player.stats.hard, color: "from-red-400 to-red-600" },
-                  { label: "Total", value: player.stats.all, color: "from-purple-400 to-pink-600" },
-                ].map((stat) => (
-                  <div key={stat.label} className="relative">
-                    <div className="flex justify-between text-sm mb-1">
-                      <span>{stat.label}</span>
-                      <span className={`bg-gradient-to-r ${stat.color} bg-clip-text text-transparent font-bold`}>
-                        {stat.value}
-                      </span>
-                    </div>
-                    <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
-                      <div 
-                        className={`h-full bg-gradient-to-r ${stat.color} rounded-full transition-all`}
-                        style={{ width: `${Math.min(100, (stat.value / (stat.label === "Total" ? 500 : 200)) * 100)}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Abilities */}
-              <div className="mt-4 flex flex-wrap gap-2">
-                {player.abilities.map((ability: string) => (
-                  <span key={ability} 
-                        className="px-2 py-1 bg-white/10 rounded-full text-sm whitespace-nowrap">
-                    {ability}
-                  </span>
-                ))}
-              </div>
-            </div>
+            <FlippableWarriorCard 
+              key={player.username}
+              player={player}
+              submissionCalendar={player.submissionCalendar}
+            />
           ))}
         </div>
       </div>
